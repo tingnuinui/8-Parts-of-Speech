@@ -1,0 +1,1231 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>8 Parts of Speech Adventure - เว็บแอปเรียนภาษาอังกฤษ</title>
+    <!-- Google Fonts: Kanit & Nunito -->
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&family=Nunito:wght@600;700;800&display=swap" rel="stylesheet">
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Kanit', 'sans-serif'],
+                        en: ['Nunito', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Kanit', sans-serif;
+            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 50%, #fae8ff 100%);
+            min-height: 100vh;
+        }
+        .en-font {
+            font-family: 'Nunito', sans-serif;
+        }
+        .card-hover {
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .card-hover:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 24px -8px rgba(0, 0, 0, 0.15);
+        }
+        @keyframes pop {
+            0% { transform: scale(0.95); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        .animate-pop {
+            animation: pop 0.3s ease-out;
+        }
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #f1f5f9; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+    </style>
+</head>
+<body class="text-slate-800 pb-16">
+
+    <!-- Navbar / Header -->
+    <header class="bg-white/90 backdrop-blur-md sticky top-0 z-50 shadow-sm border-b border-slate-200">
+        <div class="max-w-6xl mx-auto px-4 py-3 flex flex-wrap items-center justify-between gap-3">
+            <!-- Brand -->
+            <div class="flex items-center gap-3">
+                <div class="w-11 h-11 rounded-2xl bg-gradient-to-tr from-indigo-600 to-purple-500 flex items-center justify-center text-white text-2xl shadow-md">
+                    🚀
+                </div>
+                <div>
+                    <h1 class="text-xl md:text-2xl font-bold bg-gradient-to-r from-indigo-700 to-purple-600 bg-clip-text text-transparent">
+                        8 Parts of Speech
+                    </h1>
+                    <p class="text-xs text-slate-500">ตะลุยด่านหน้าที่ของคำในภาษาอังกฤษ สำหรับนักเรียนไทย</p>
+                </div>
+            </div>
+
+            <!-- Controls & Navigation -->
+            <div class="flex items-center gap-2 flex-wrap">
+                <!-- Slow Speech Toggle -->
+                <button id="slowModeBtn" onclick="toggleSlowMode()" class="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium bg-amber-100 text-amber-800 border border-amber-300 hover:bg-amber-200 transition" title="สลับความเร็วเสียงพูด">
+                    <span id="speedIcon">🐇</span>
+                    <span id="speedText">ความเร็วปกติ (1.0x)</span>
+                </button>
+
+                <!-- Mode Switch Tabs -->
+                <nav class="flex bg-slate-100 p-1 rounded-xl border border-slate-200">
+                    <button onclick="switchTab('learn')" id="tab-learn" class="px-3.5 py-1.5 rounded-lg text-sm font-medium transition bg-indigo-600 text-white shadow-sm">
+                        📚 บทเรียน
+                    </button>
+                    <button onclick="switchTab('game')" id="tab-game" class="px-3.5 py-1.5 rounded-lg text-sm font-medium transition text-slate-600 hover:text-indigo-600">
+                        🎮 มินิเกม
+                    </button>
+                    <button onclick="switchTab('quiz')" id="tab-quiz" class="px-3.5 py-1.5 rounded-lg text-sm font-medium transition text-slate-600 hover:text-indigo-600">
+                        📝 แบบทดสอบ
+                    </button>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="max-w-6xl mx-auto px-4 mt-6">
+
+        <!-- ==================== SECTION 1: LEARN (THEORY) ==================== -->
+        <section id="section-learn" class="space-y-6">
+            <!-- Intro Banner -->
+            <div class="bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-500 rounded-3xl p-6 md:p-8 text-white shadow-lg flex flex-col md:flex-row items-center justify-between gap-6">
+                <div class="space-y-2 max-w-2xl">
+                    <span class="inline-block px-3 py-1 bg-white/20 rounded-full text-xs font-medium backdrop-blur-sm">
+                        💡 ปูพื้นฐานไวยากรณ์อังกฤษแบบเข้าใจง่าย
+                    </span>
+                    <h2 class="text-2xl md:text-3xl font-bold">ทำไมต้องเรียน 8 Parts of Speech?</h2>
+                    <p class="text-indigo-100 text-sm md:text-base leading-relaxed">
+                        ในภาษาอังกฤษ คำทุกคำในประโยคจะมี <strong>"หน้าที่"</strong> ของตัวเองเหมือนสมาชิกในทีมฟุตบอล หากเรารู้ว่าคำไหนทำหน้าที่อะไร เราจะแต่งประโยคได้ถูกต้อง อ่านเข้าใจเร็ว และทำข้อสอบได้สบายมาก!
+                    </p>
+                </div>
+                <div class="flex flex-col items-center bg-white/15 backdrop-blur-md p-4 rounded-2xl border border-white/20 text-center min-w-[200px]">
+                    <div class="text-4xl mb-1">🔊</div>
+                    <p class="text-xs font-medium text-white">คลิกที่ปุ่มลำโพงหรือคำศัพท์<br>เพื่อฝึกฟังเสียงเจ้าของภาษา!</p>
+                </div>
+            </div>
+
+            <!-- 8 Parts Selection Grid -->
+            <div>
+                <h3 class="text-lg font-bold text-slate-700 mb-3 flex items-center gap-2">
+                    <span>📌 เลือกชนิดของคำที่ต้องการศึกษา:</span>
+                </h3>
+                <div id="posGrid" class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-2.5">
+                    <!-- Rendered by JS -->
+                </div>
+            </div>
+
+            <!-- Detailed Lesson Display Card -->
+            <div id="lessonDetail" class="bg-white rounded-3xl shadow-md border border-slate-200 overflow-hidden animate-pop">
+                <!-- Rendered by JS -->
+            </div>
+
+            <!-- Master Summary Sentence -->
+            <div class="bg-white rounded-3xl p-6 shadow-sm border border-slate-200">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-4">
+                    <div>
+                        <h3 class="text-lg font-bold text-slate-800">🌟 ประโยคมหัศจรรย์: รวมครบทั้ง 8 ชนิดในประโยคเดียว!</h3>
+                        <p class="text-xs text-slate-500">ลองกดฟังเสียงทั้งประโยค หรือคลิกที่แต่ละคำเพื่อฟังเสียงแยกคำ</p>
+                    </div>
+                    <button onclick="speakText('Wow! He ran quickly after the red bus, and caught it.')" class="self-start sm:self-auto flex items-center gap-2 px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl text-sm font-medium shadow-sm transition">
+                        🔊 ฟังทั้งประโยค
+                    </button>
+                </div>
+
+                <div class="flex flex-wrap gap-2.5 items-center justify-center bg-slate-50 p-5 rounded-2xl border border-slate-100">
+                    <div onclick="speakText('Wow')" class="cursor-pointer group bg-pink-50 border border-pink-200 px-3 py-2 rounded-xl text-center hover:bg-pink-100 transition">
+                        <div class="en-font font-bold text-lg text-pink-700">Wow! 🔊</div>
+                        <div class="text-[11px] font-medium text-pink-600">Interjection (คำอุทาน)</div>
+                    </div>
+                    <div onclick="speakText('He')" class="cursor-pointer group bg-purple-50 border border-purple-200 px-3 py-2 rounded-xl text-center hover:bg-purple-100 transition">
+                        <div class="en-font font-bold text-lg text-purple-700">He 🔊</div>
+                        <div class="text-[11px] font-medium text-purple-600">Pronoun (คำสรรพนาม)</div>
+                    </div>
+                    <div onclick="speakText('ran')" class="cursor-pointer group bg-red-50 border border-red-200 px-3 py-2 rounded-xl text-center hover:bg-red-100 transition">
+                        <div class="en-font font-bold text-lg text-red-700">ran 🔊</div>
+                        <div class="text-[11px] font-medium text-red-600">Verb (คำกริยา)</div>
+                    </div>
+                    <div onclick="speakText('quickly')" class="cursor-pointer group bg-emerald-50 border border-emerald-200 px-3 py-2 rounded-xl text-center hover:bg-emerald-100 transition">
+                        <div class="en-font font-bold text-lg text-emerald-700">quickly 🔊</div>
+                        <div class="text-[11px] font-medium text-emerald-600">Adverb (กริยาวิเศษณ์)</div>
+                    </div>
+                    <div onclick="speakText('after')" class="cursor-pointer group bg-cyan-50 border border-cyan-200 px-3 py-2 rounded-xl text-center hover:bg-cyan-100 transition">
+                        <div class="en-font font-bold text-lg text-cyan-700">after 🔊</div>
+                        <div class="text-[11px] font-medium text-cyan-600">Preposition (คำบุพบท)</div>
+                    </div>
+                    <div onclick="speakText('the red')" class="cursor-pointer group bg-amber-50 border border-amber-200 px-3 py-2 rounded-xl text-center hover:bg-amber-100 transition">
+                        <div class="en-font font-bold text-lg text-amber-700">red 🔊</div>
+                        <div class="text-[11px] font-medium text-amber-600">Adjective (คำคุณศัพท์)</div>
+                    </div>
+                    <div onclick="speakText('bus')" class="cursor-pointer group bg-blue-50 border border-blue-200 px-3 py-2 rounded-xl text-center hover:bg-blue-100 transition">
+                        <div class="en-font font-bold text-lg text-blue-700">bus, 🔊</div>
+                        <div class="text-[11px] font-medium text-blue-600">Noun (คำนาม)</div>
+                    </div>
+                    <div onclick="speakText('and')" class="cursor-pointer group bg-orange-50 border border-orange-200 px-3 py-2 rounded-xl text-center hover:bg-orange-100 transition">
+                        <div class="en-font font-bold text-lg text-orange-700">and 🔊</div>
+                        <div class="text-[11px] font-medium text-orange-600">Conjunction (คำสันธาน)</div>
+                    </div>
+                    <div onclick="speakText('caught it')" class="cursor-pointer group bg-slate-100 border border-slate-300 px-3 py-2 rounded-xl text-center hover:bg-slate-200 transition">
+                        <div class="en-font font-bold text-lg text-slate-700">caught it. 🔊</div>
+                        <div class="text-[11px] font-medium text-slate-600">Verb + Pronoun</div>
+                    </div>
+                </div>
+                <p class="text-center text-sm text-slate-600 mt-3">
+                    <strong>คำแปล:</strong> "ว้าว! เขาวิ่งตามรถบัสสีแดงไปอย่างรวดเร็ว และขึ้นรถได้ทัน"
+                </p>
+            </div>
+        </section>
+
+        <!-- ==================== SECTION 2: MINI GAME ==================== -->
+        <section id="section-game" class="hidden space-y-6">
+            <div class="bg-white rounded-3xl p-6 md:p-8 shadow-md border border-slate-200">
+                <!-- Game Header -->
+                <div class="flex flex-wrap items-center justify-between gap-4 pb-6 border-b border-slate-100">
+                    <div>
+                        <span class="px-3 py-1 bg-purple-100 text-purple-700 rounded-full text-xs font-bold">🎮 ARCADE MODE</span>
+                        <h2 class="text-2xl font-bold text-slate-800 mt-1">เกมคัดแยกคำศัพท์ (Word Sorter Challenge)</h2>
+                        <p class="text-sm text-slate-500">ดูคำศัพท์และประโยคใบ้ แล้วกดเลือกชนิดของคำ (Part of Speech) ให้ถูกต้อง!</p>
+                    </div>
+                    <div class="flex items-center gap-3">
+                        <div class="bg-amber-50 border border-amber-200 px-4 py-2 rounded-2xl text-center">
+                            <div class="text-xs text-amber-600 font-medium">🔥 คอมโบ (Streak)</div>
+                            <div id="gameStreak" class="text-xl font-extrabold text-amber-600">0</div>
+                        </div>
+                        <div class="bg-indigo-50 border border-indigo-200 px-4 py-2 rounded-2xl text-center">
+                            <div class="text-xs text-indigo-600 font-medium">⭐ คะแนนรวม</div>
+                            <div id="gameScore" class="text-xl font-extrabold text-indigo-600">0</div>
+                        </div>
+                        <div class="bg-rose-50 border border-rose-200 px-4 py-2 rounded-2xl text-center">
+                            <div class="text-xs text-rose-600 font-medium">⏱️ เวลา</div>
+                            <div id="gameTimer" class="text-xl font-extrabold text-rose-600">60s</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Game Start Screen -->
+                <div id="gameStartScreen" class="py-12 text-center space-y-5">
+                    <div class="text-6xl animate-bounce">🕹️</div>
+                    <h3 class="text-2xl font-bold text-slate-800">พร้อมทดสอบความไวและแม่นยำหรือยัง?</h3>
+                    <p class="text-slate-600 max-w-md mx-auto text-sm">
+                        คุณมีเวลา <strong>60 วินาที</strong> ในการแยกประเภทคำศัพท์ให้ได้มากที่สุด ตอบถูกต่อเนื่องได้โบนัสคอมโบ พร้อมเสียงอ่านภาษาอังกฤษทุกข้อ!
+                    </p>
+                    <button onclick="startGame()" class="px-8 py-3.5 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white font-bold rounded-2xl shadow-lg text-lg transition transform hover:scale-105">
+                        🚀 เริ่มเล่นเกมเลย!
+                    </button>
+                </div>
+
+                <!-- Game Play Area -->
+                <div id="gamePlayArea" class="hidden py-6 space-y-6">
+                    <!-- Target Word Card -->
+                    <div class="max-w-xl mx-auto bg-gradient-to-br from-slate-800 to-indigo-950 text-white rounded-3xl p-6 text-center shadow-xl relative">
+                        <button onclick="speakCurrentGameWord()" class="absolute top-4 right-4 bg-white/15 hover:bg-white/25 p-2.5 rounded-full text-white transition" title="ฟังเสียงคำศัพท์">
+                            🔊
+                        </button>
+                        <div id="gameWordEmoji" class="text-5xl mb-2">🍎</div>
+                        <div id="gameWordText" class="en-font text-4xl font-extrabold tracking-wide text-amber-300">Apple</div>
+                        <div id="gameWordMeaning" class="text-base text-indigo-200 mt-1">แปลว่า: แอปเปิล</div>
+                        <div id="gameWordHint" class="mt-4 inline-block bg-white/10 px-4 py-1.5 rounded-xl text-xs text-slate-200 en-font">
+                            "I eat a red <u>apple</u>."
+                        </div>
+                    </div>
+
+                    <!-- Feedback Message -->
+                    <div id="gameFeedback" class="h-8 text-center font-bold text-base"></div>
+
+                    <!-- 8 Buttons Grid -->
+                    <div id="gameButtonsGrid" class="grid grid-cols-2 sm:grid-cols-4 gap-3 max-w-3xl mx-auto">
+                        <!-- Rendered by JS -->
+                    </div>
+                </div>
+
+                <!-- Game Over Screen -->
+                <div id="gameOverScreen" class="hidden py-10 text-center space-y-5">
+                    <div class="text-6xl">🏆</div>
+                    <h3 class="text-2xl font-bold text-slate-800">หมดเวลา! สรุปผลคะแนนของคุณ</h3>
+                    <div class="flex justify-center gap-4">
+                        <div class="bg-indigo-50 px-6 py-4 rounded-2xl border border-indigo-200">
+                            <div class="text-xs text-indigo-600">คะแนนที่ได้</div>
+                            <div id="finalGameScore" class="text-3xl font-extrabold text-indigo-700">0</div>
+                        </div>
+                        <div class="bg-emerald-50 px-6 py-4 rounded-2xl border border-emerald-200">
+                            <div class="text-xs text-emerald-600">ตอบถูกทั้งหมด</div>
+                            <div id="finalGameCorrect" class="text-3xl font-extrabold text-emerald-700">0 ข้อ</div>
+                        </div>
+                    </div>
+                    <div class="pt-2">
+                        <button onclick="startGame()" class="px-6 py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-xl shadow transition">
+                            🔄 เล่นอีกครั้ง
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================== SECTION 3: QUIZ WITH EXPLANATIONS ==================== -->
+        <section id="section-quiz" class="hidden space-y-6">
+            <div class="bg-white rounded-3xl p-6 md:p-8 shadow-md border border-slate-200">
+                <!-- Quiz Header -->
+                <div class="flex flex-wrap items-center justify-between gap-4 pb-6 border-b border-slate-100">
+                    <div>
+                        <span class="px-3 py-1 bg-emerald-100 text-emerald-700 rounded-full text-xs font-bold">📝 COMPREHENSIVE QUIZ</span>
+                        <h2 class="text-2xl font-bold text-slate-800 mt-1">แบบทดสอบวัดความเข้าใจ (พร้อมเฉลยละเอียด)</h2>
+                        <p class="text-sm text-slate-500">ข้อสอบ 12 ข้อ ครอบคลุมทั้ง 8 ชนิดของคำ มีเสียงอ่านประโยคและคำอธิบายเหตุผลทุกข้อ</p>
+                    </div>
+                    <div class="flex items-center gap-3">
+                        <span id="quizProgressText" class="text-sm font-bold text-slate-600">ข้อที่ 1 / 12</span>
+                        <button onclick="resetQuiz()" class="px-3 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl text-xs font-medium transition">
+                            🔄 เริ่มทำใหม่
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Progress Bar -->
+                <div class="w-full bg-slate-100 h-2.5 rounded-full overflow-hidden my-4">
+                    <div id="quizProgressBar" class="bg-gradient-to-r from-indigo-500 to-purple-500 h-full transition-all duration-300" style="width: 8.33%"></div>
+                </div>
+
+                <!-- Quiz Active Container -->
+                <div id="quizActiveContainer" class="py-4 space-y-6 max-w-3xl mx-auto">
+                    <!-- Question Box -->
+                    <div class="bg-slate-50 p-6 rounded-2xl border border-slate-200 space-y-3">
+                        <div class="flex items-start justify-between gap-4">
+                            <span id="quizQuestionType" class="px-3 py-1 bg-indigo-100 text-indigo-700 rounded-lg text-xs font-bold">
+                                วิเคราะห์หน้าที่ของคำ
+                            </span>
+                            <button onclick="speakCurrentQuizSentence()" class="flex items-center gap-1.5 px-3 py-1.5 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl text-xs font-medium transition shadow-sm">
+                                🔊 ฟังประโยค
+                            </button>
+                        </div>
+                        <h3 id="quizQuestionPrompt" class="text-lg md:text-xl font-bold text-slate-800">
+                            คำที่ขีดเส้นใต้ในประโยคนี้ทำหน้าที่เป็นอะไร?
+                        </h3>
+                        <div id="quizSentenceBox" class="p-4 bg-white rounded-xl border border-slate-200 text-lg md:text-xl en-font font-bold text-slate-800 text-center shadow-inner">
+                            <!-- Sentence rendered by JS -->
+                        </div>
+                        <p id="quizThaiTranslation" class="text-xs text-slate-500 text-center"></p>
+                    </div>
+
+                    <!-- Options Grid -->
+                    <div id="quizOptionsGrid" class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                        <!-- Options rendered by JS -->
+                    </div>
+
+                    <!-- Detailed Explanation Box (Shown after answering) -->
+                    <div id="quizExplanationBox" class="hidden p-5 rounded-2xl border space-y-2 animate-pop">
+                        <div id="quizResultHeader" class="font-bold text-base flex items-center gap-2"></div>
+                        <p id="quizExplanationText" class="text-sm text-slate-700 leading-relaxed"></p>
+                        <div class="pt-2 flex justify-end">
+                            <button onclick="nextQuizQuestion()" id="nextQuizBtn" class="px-5 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-xl text-sm shadow transition">
+                                ข้อต่อไป ➡️
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quiz Final Summary Container -->
+                <div id="quizSummaryContainer" class="hidden py-8 space-y-6">
+                    <div class="text-center space-y-3">
+                        <div id="quizSummaryEmoji" class="text-6xl">🎉</div>
+                        <h3 class="text-2xl font-bold text-slate-800">ทำแบบทดสอบครบแล้ว!</h3>
+                        <p id="quizSummaryFeedback" class="text-slate-600 text-sm"></p>
+                        <div class="inline-block bg-indigo-50 border border-indigo-200 px-8 py-4 rounded-2xl">
+                            <div class="text-xs text-indigo-600 font-medium">คะแนนรวมของคุณ</div>
+                            <div id="quizFinalScore" class="text-4xl font-extrabold text-indigo-700 mt-1">10 / 12</div>
+                        </div>
+                        <div>
+                            <button onclick="resetQuiz()" class="mt-2 px-6 py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-xl shadow transition">
+                                🔄 ทำแบบทดสอบอีกครั้ง
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- All Answers Review List -->
+                    <div class="border-t border-slate-200 pt-6">
+                        <h4 class="text-lg font-bold text-slate-800 mb-4">📋 สรุปเฉลยละเอียดครบทุกข้อ:</h4>
+                        <div id="quizReviewList" class="space-y-3">
+                            <!-- Rendered by JS -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="max-w-6xl mx-auto px-4 mt-12 text-center text-xs text-slate-400">
+        <p>สร้างสรรค์เพื่อการเรียนรู้ภาษาอังกฤษสำหรับนักเรียนไทย • รองรับเสียงอ่านภาษาอังกฤษด้วยระบบ Web Speech API</p>
+    </footer>
+
+    <!-- ==================== JAVASCRIPT LOGIC ==================== -->
+    <script>
+        // ==========================================
+        // 1. SPEECH & SOUND EFFECTS SYSTEM
+        // ==========================================
+        let isSlowMode = false;
+
+        function toggleSlowMode() {
+            isSlowMode = !isSlowMode;
+            const icon = document.getElementById('speedIcon');
+            const text = document.getElementById('speedText');
+            const btn = document.getElementById('slowModeBtn');
+
+            if (isSlowMode) {
+                icon.textContent = '🐢';
+                text.textContent = 'โหมดพูดช้า (0.65x)';
+                btn.className = 'flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium bg-emerald-100 text-emerald-800 border border-emerald-300 hover:bg-emerald-200 transition';
+            } else {
+                icon.textContent = '🐇';
+                text.textContent = 'ความเร็วปกติ (1.0x)';
+                btn.className = 'flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium bg-amber-100 text-amber-800 border border-amber-300 hover:bg-amber-200 transition';
+            }
+        }
+
+        function speakText(text) {
+            if (!('speechSynthesis' in window)) {
+                alert('เบราว์เซอร์ของคุณไม่รองรับระบบอ่านออกเสียง กรุณาใช้ Chrome, Edge หรือ Safari');
+                return;
+            }
+            window.speechSynthesis.cancel();
+            const cleanText = text.replace(/<\/?[^>]+(>|$)/g, ""); // Strip HTML tags
+            const utterance = new SpeechSynthesisUtterance(cleanText);
+            utterance.lang = 'en-US';
+            utterance.rate = isSlowMode ? 0.65 : 0.95;
+            utterance.pitch = 1.0;
+
+            // Try to select a clear English voice
+            const voices = window.speechSynthesis.getVoices();
+            const preferredVoice = voices.find(v => v.lang === 'en-US' && (v.name.includes('Google') || v.name.includes('Samantha') || v.name.includes('Natural')))
+                                || voices.find(v => v.lang.startsWith('en'));
+            if (preferredVoice) utterance.voice = preferredVoice;
+
+            window.speechSynthesis.speak(utterance);
+        }
+
+        // Synthesized Sound Effects (No external MP3 needed)
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        function playTone(type) {
+            if (audioCtx.state === 'suspended') audioCtx.resume();
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+
+            const now = audioCtx.currentTime;
+            if (type === 'correct') {
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(523.25, now); // C5
+                osc.frequency.setValueAtTime(659.25, now + 0.1); // E5
+                osc.frequency.setValueAtTime(783.99, now + 0.2); // G5
+                gain.gain.setValueAtTime(0.15, now);
+                gain.gain.exponentialRampToValueAtTime(0.001, now + 0.4);
+                osc.start(now);
+                osc.stop(now + 0.4);
+            } else if (type === 'wrong') {
+                osc.type = 'sawtooth';
+                osc.frequency.setValueAtTime(220, now);
+                osc.frequency.setValueAtTime(160, now + 0.15);
+                gain.gain.setValueAtTime(0.12, now);
+                gain.gain.exponentialRampToValueAtTime(0.001, now + 0.35);
+                osc.start(now);
+                osc.stop(now + 0.35);
+            }
+        }
+
+        // ==========================================
+        // 2. DATA: 8 PARTS OF SPEECH
+        // ==========================================
+        const partsOfSpeechData = [
+            {
+                id: 'noun',
+                nameEn: 'Noun',
+                nameTh: 'คำนาม',
+                shortTh: 'คน สัตว์ สิ่งของ สถานที่',
+                emoji: '🐕',
+                color: 'blue',
+                bgLight: 'bg-blue-50',
+                borderLight: 'border-blue-200',
+                textMain: 'text-blue-700',
+                badgeBg: 'bg-blue-600',
+                definition: 'คำที่ใช้เรียกชื่อ คน สัตว์ สิ่งของ สถานที่ รวมถึงความรู้สึกและแนวคิดต่างๆ',
+                trick: 'จำง่ายๆ: "อะไรก็ตามที่เราตั้งชื่อให้มันได้ หรือจับต้องได้ มักจะเป็น Noun!"',
+                subtypes: [
+                    'Common Noun (นามทั่วไป): dog, teacher, country, book',
+                    'Proper Noun (นามเฉพาะ ขึ้นต้นตัวพิมพ์ใหญ่เสมอ): Thailand, Somchai, Sunday'
+                ],
+                vocab: [
+                    { word: 'Teacher', pron: 'ทีช-เชอะ', meaning: 'คุณครู', icon: '👩‍🏫' },
+                    { word: 'Thailand', pron: 'ไทย-แลนด์', meaning: 'ประเทศไทย', icon: '🇹🇭' },
+                    { word: 'Elephant', pron: 'เอล-เลอะ-เฟินท', meaning: 'ช้าง', icon: '🐘' },
+                    { word: 'Computer', pron: 'คัม-พิว-เทอะ', meaning: 'คอมพิวเตอร์', icon: '💻' },
+                    { word: 'School', pron: 'สคูล', meaning: 'โรงเรียน', icon: '🏫' },
+                    { word: 'Happiness', pron: 'แฮพ-พิ-เนส', meaning: 'ความสุข (นามธรรม)', icon: '😊' }
+                ],
+                sentences: [
+                    { en: 'The <span class="text-blue-600 underline">dog</span> barks at the <span class="text-blue-600 underline">postman</span>.', clean: 'The dog barks at the postman.', th: 'สุนัขเห่าใส่บุรุษไปรษณีย์ (dog และ postman เป็นคำนาม)' },
+                    { en: '<span class="text-blue-600 underline">Somchai</span> lives in <span class="text-blue-600 underline">Bangkok</span>.', clean: 'Somchai lives in Bangkok.', th: 'สมชายอาศัยอยู่ในกรุงเทพฯ (เป็นคำนามเฉพาะทั้งคู่)' }
+                ]
+            },
+            {
+                id: 'pronoun',
+                nameEn: 'Pronoun',
+                nameTh: 'คำสรรพนาม',
+                shortTh: 'ใช้แทนคำนาม',
+                emoji: '🙋‍♀️',
+                color: 'purple',
+                bgLight: 'bg-purple-50',
+                borderLight: 'border-purple-200',
+                textMain: 'text-purple-700',
+                badgeBg: 'bg-purple-600',
+                definition: 'คำที่ใช้แทนคำนาม (Noun) เพื่อจะได้ไม่ต้องพูดชื่อเดิมซ้ำๆ ให้ประโยคดูน่าเบื่อ',
+                trick: 'จำง่ายๆ: "ตัวสำรองที่มาทำหน้าที่แทนชื่อจริง เช่น I, You, We, They, He, She, It"',
+                subtypes: [
+                    'Subject Pronoun (เป็นประธาน อยู่หน้ากริยา): I, You, We, They, He, She, It',
+                    'Object Pronoun (เป็นกรรม อยู่หลังกริยา): me, you, us, them, him, her, it'
+                ],
+                vocab: [
+                    { word: 'I / Me', pron: 'ไอ / มี', meaning: 'ฉัน', icon: '🙋‍♂️' },
+                    { word: 'He / Him', pron: 'ฮี / ฮิม', meaning: 'เขา (ผู้ชาย)', icon: '👦' },
+                    { word: 'She / Her', pron: 'ชี / เฮอ', meaning: 'เธอ (ผู้หญิง)', icon: '👧' },
+                    { word: 'They / Them', pron: 'เด / เดม', meaning: 'พวกเขา / พวกมัน', icon: '👨‍👩‍👧‍👦' },
+                    { word: 'We / Us', pron: 'วี / อัส', meaning: 'พวกเรา', icon: '🤝' },
+                    { word: 'It', pron: 'อิท', meaning: 'มัน (สัตว์/สิ่งของ)', icon: '📦' }
+                ],
+                sentences: [
+                    { en: 'Mali is kind. <span class="text-purple-600 underline">She</span> helps <span class="text-purple-600 underline">me</span> every day.', clean: 'Mali is kind. She helps me every day.', th: 'มะลิใจดี เธอ(แทนมะลิ) ช่วยฉันทุกวัน' },
+                    { en: 'My friends are here. <span class="text-purple-600 underline">They</span> are playing football.', clean: 'My friends are here. They are playing football.', th: 'เพื่อนๆ ของฉันอยู่ที่นี่ พวกเขากำลังเล่นฟุตบอล' }
+                ]
+            },
+            {
+                id: 'verb',
+                nameEn: 'Verb',
+                nameTh: 'คำกริยา',
+                shortTh: 'การกระทำ หรือ สถานะ',
+                emoji: '🏃‍♂️',
+                color: 'red',
+                bgLight: 'bg-red-50',
+                borderLight: 'border-red-200',
+                textMain: 'text-red-700',
+                badgeBg: 'bg-red-600',
+                definition: 'คำที่แสดงอาการ การกระทำของประธาน หรือบอกสถานะ "เป็น อยู่ คือ"',
+                trick: 'จำง่ายๆ: "ขาด Verb ไม่ได้! ประโยคภาษาอังกฤษทุกประโยคต้องมี Verb เสมอ"',
+                subtypes: [
+                    'Action Verb (กริยาแสดงการกระทำ): run, eat, study, sleep, speak',
+                    'Verb to be / Linking Verb (บอกสถานะ): is, am, are, was, were, feel, look'
+                ],
+                vocab: [
+                    { word: 'Run', pron: 'รัน', meaning: 'วิ่ง', icon: '🏃' },
+                    { word: 'Eat', pron: 'อีท', meaning: 'กิน', icon: '🍽️' },
+                    { word: 'Study', pron: 'สตัด-ดี', meaning: 'เรียน', icon: '📖' },
+                    { word: 'Sleep', pron: 'สลีพ', meaning: 'นอนหลับ', icon: '😴' },
+                    { word: 'Is / Am / Are', pron: 'อีส / แอม / อาร์', meaning: 'เป็น, อยู่, คือ', icon: '✨' },
+                    { word: 'Think', pron: 'ธิงค', meaning: 'คิด', icon: '🤔' }
+                ],
+                sentences: [
+                    { en: 'Birds <span class="text-red-600 underline">fly</span> in the sky.', clean: 'Birds fly in the sky.', th: 'นกบินอยู่บนท้องฟ้า (fly แสดงการกระทำ)' },
+                    { en: 'She <span class="text-red-600 underline">is</span> a smart student.', clean: 'She is a smart student.', th: 'เธอเป็นนักเรียนที่ฉลาด (is บอกสถานะว่าเป็นใคร)' }
+                ]
+            },
+            {
+                id: 'adjective',
+                nameEn: 'Adjective',
+                nameTh: 'คำคุณศัพท์',
+                shortTh: 'ขยายคำนามให้ชัดเจน',
+                emoji: '🎨',
+                color: 'amber',
+                bgLight: 'bg-amber-50',
+                borderLight: 'border-amber-200',
+                textMain: 'text-amber-700',
+                badgeBg: 'bg-amber-500',
+                definition: 'คำที่ทำหน้าที่ขยายคำนาม (Noun) หรือคำสรรพนาม (Pronoun) เพื่อบอกรูปร่าง สี ขนาด จำนวน หรือคุณสมบัติ',
+                trick: 'จำง่ายๆ: "วางไว้หน้าคำนาม (เช่น a red car) หรือวางหลัง Verb to be (เช่น The car is red)"',
+                subtypes: [
+                    'บอกสีและขนาด: big, small, tall, red, blue',
+                    'บอกความรู้สึกและลักษณะ: happy, beautiful, delicious, expensive'
+                ],
+                vocab: [
+                    { word: 'Beautiful', pron: 'บิว-ทิ-ฟูล', meaning: 'สวยงาม', icon: '🌸' },
+                    { word: 'Delicious', pron: 'ดิ-ลิช-เชิส', meaning: 'อร่อย', icon: '🍕' },
+                    { word: 'Big', pron: 'บิก', meaning: 'ใหญ่', icon: '🐘' },
+                    { word: 'Fast', pron: 'ฟาสท', meaning: 'เร็ว', icon: '🏎️' },
+                    { word: 'Happy', pron: 'แฮพ-พี', meaning: 'มีความสุข', icon: '😄' },
+                    { word: 'Smart', pron: 'สมาร์ท', meaning: 'ฉลาด, เท่', icon: '🧠' }
+                ],
+                sentences: [
+                    { en: 'I like <span class="text-amber-600 underline">spicy</span> Thai food.', clean: 'I like spicy Thai food.', th: 'ฉันชอบอาหารไทยรสเผ็ด (spicy ขยาย food)' },
+                    { en: 'This movie is very <span class="text-amber-600 underline">exciting</span>.', clean: 'This movie is very exciting.', th: 'ภาพยนตร์เรื่องนี้น่าตื่นเต้นมาก (วางหลัง is)' }
+                ]
+            },
+            {
+                id: 'adverb',
+                nameEn: 'Adverb',
+                nameTh: 'คำกริยาวิเศษณ์',
+                shortTh: 'ขยายกริยา / คุณศัพท์',
+                emoji: '⚡',
+                color: 'emerald',
+                bgLight: 'bg-emerald-50',
+                borderLight: 'border-emerald-200',
+                textMain: 'text-emerald-700',
+                badgeBg: 'bg-emerald-600',
+                definition: 'คำที่ใช้ขยายคำกริยา (Verb), คำคุณศัพท์ (Adjective) หรือขยาย Adverb ด้วยกันเอง เพื่อบอกว่าทำอย่างไร เมื่อไหร่ ที่ไหน หรือบ่อยแค่ไหน',
+                trick: 'จำง่ายๆ: "มักลงท้ายด้วย -ly (เช่น quickly, slowly, carefully) หรือบอกความถี่ เช่น always, very"',
+                subtypes: [
+                    'บอกลักษณะอาการ (ทำอย่างไร): quickly (อย่างเร็ว), loudly (เสียงดัง), well (อย่างดี)',
+                    'บอกความถี่และระดับ: always (เสมอ), never (ไม่เคย), very (มาก), yesterday (เมื่อวาน)'
+                ],
+                vocab: [
+                    { word: 'Quickly', pron: 'ควิค-ลี', meaning: 'อย่างรวดเร็ว', icon: '⚡' },
+                    { word: 'Slowly', pron: 'สโลว-ลี', meaning: 'อย่างช้าๆ', icon: '🐢' },
+                    { word: 'Carefully', pron: 'แคร์-ฟุล-ลี', meaning: 'อย่างระมัดระวัง', icon: '🔍' },
+                    { word: 'Always', pron: 'ออล-เวส', meaning: 'สม่ำเสมอ, ตลอด', icon: '🔁' },
+                    { word: 'Very', pron: 'เว-รี', meaning: 'มาก', icon: '🔥' },
+                    { word: 'Well', pron: 'เวล', meaning: 'อย่างดี', icon: '👍' }
+                ],
+                sentences: [
+                    { en: 'The turtle walks <span class="text-emerald-600 underline">slowly</span>.', clean: 'The turtle walks slowly.', th: 'เต่าเดินอย่างช้าๆ (slowly ขยายกริยา walks)' },
+                    { en: 'She speaks English <span class="text-emerald-600 underline">fluently</span>.', clean: 'She speaks English fluently.', th: 'เธอพูดภาษาอังกฤษได้อย่างคล่องแคล่ว' }
+                ]
+            },
+            {
+                id: 'preposition',
+                nameEn: 'Preposition',
+                nameTh: 'คำบุพบท',
+                shortTh: 'บอกตำแหน่ง เวลา ทิศทาง',
+                emoji: '📍',
+                color: 'cyan',
+                bgLight: 'bg-cyan-50',
+                borderLight: 'border-cyan-200',
+                textMain: 'text-cyan-700',
+                badgeBg: 'bg-cyan-600',
+                definition: 'คำที่ใช้เชื่อมคำนามหรือสรรพนามเข้ากับส่วนอื่นของประโยค เพื่อบอกสถานที่ ตำแหน่ง เวลา หรือทิศทาง',
+                trick: 'จำง่ายๆ: "มักวางไว้หน้าคำนามเสมอ เช่น in the room, on the table, at 8 o\'clock"',
+                subtypes: [
+                    'บอกตำแหน่ง/สถานที่: in (ใน), on (บน), under (ใต้), between (ระหว่าง)',
+                    'บอกเวลาและทิศทาง: at (เวลา...), before (ก่อน), after (หลัง), to (ไปยัง)'
+                ],
+                vocab: [
+                    { word: 'In', pron: 'อิน', meaning: 'ข้างใน', icon: '📥' },
+                    { word: 'On', pron: 'ออน', meaning: 'ข้างบน (สัมผัสผิว)', icon: '📘' },
+                    { word: 'Under', pron: 'อัน-เดอะ', meaning: 'ข้างใต้', icon: '🪑' },
+                    { word: 'At', pron: 'แอท', meaning: 'ที่ (จุดนัดพบ/เวลา)', icon: '🎯' },
+                    { word: 'With', pron: 'วิธ', meaning: 'ด้วย / กับ', icon: '👫' },
+                    { word: 'From', pron: 'ฟรอม', meaning: 'จาก', icon: '🛫' }
+                ],
+                sentences: [
+                    { en: 'The cat is sleeping <span class="text-cyan-600 underline">under</span> the table.', clean: 'The cat is sleeping under the table.', th: 'แมวกำลังนอนหลับอยู่ใต้โต๊ะ' },
+                    { en: 'We start school <span class="text-cyan-600 underline">at</span> 8 o\'clock <span class="text-cyan-600 underline">in</span> the morning.', clean: 'We start school at 8 o\'clock in the morning.', th: 'เราเริ่มเรียนเวลา 8 โมงในตอนเช้า' }
+                ]
+            },
+            {
+                id: 'conjunction',
+                nameEn: 'Conjunction',
+                nameTh: 'คำสันธาน',
+                shortTh: 'เชื่อมคำ หรือ เชื่อมประโยค',
+                emoji: '🔗',
+                color: 'orange',
+                bgLight: 'bg-orange-50',
+                borderLight: 'border-orange-200',
+                textMain: 'text-orange-700',
+                badgeBg: 'bg-orange-500',
+                definition: 'คำที่ใช้เชื่อมคำ กลุ่มคำ หรือประโยคเข้าด้วยกัน เหมือนกาวหรือสะพานเชื่อมข้อความให้สละสลวย',
+                trick: 'จำง่ายๆ: "สูตร FANBOYS ยอดฮิต -> For, And (และ), Nor, But (แต่), Or (หรือ), Yet, So (ดังนั้น) + Because (เพราะว่า)"',
+                subtypes: [
+                    'คล้อยตามกัน / เลือกอย่างใดอย่างหนึ่ง: and (และ), or (หรือ)',
+                    'ขัดแย้งกัน / เป็นเหตุเป็นผล: but (แต่), because (เพราะว่า), so (ดังนั้น), although (แม้ว่า)'
+                ],
+                vocab: [
+                    { word: 'And', pron: 'แอนด์', meaning: 'และ', icon: '➕' },
+                    { word: 'But', pron: 'บัท', meaning: 'แต่ (ขัดแย้งกัน)', icon: '⚡' },
+                    { word: 'Or', pron: 'ออร์', meaning: 'หรือ (ให้เลือก)', icon: '⚖️' },
+                    { word: 'Because', pron: 'บิ-คอส', meaning: 'เพราะว่า (บอกเหตุผล)', icon: '💡' },
+                    { word: 'So', pron: 'โซ', meaning: 'ดังนั้น (บอกผลลัพธ์)', icon: '➡️' },
+                    { word: 'Although', pron: 'ออล-โธ', meaning: 'ถึงแม้ว่า', icon: '🌧️' }
+                ],
+                sentences: [
+                    { en: 'I wanted to go out, <span class="text-orange-600 underline">but</span> it was raining.', clean: 'I wanted to go out, but it was raining.', th: 'ฉันอยากออกไปข้างนอก แต่ฝนกำลังตก' },
+                    { en: 'He passed the exam <span class="text-orange-600 underline">because</span> he studied hard.', clean: 'He passed the exam because he studied hard.', th: 'เขาสอบผ่านเพราะว่าเขาตั้งใจเรียนอย่างหนัก' }
+                ]
+            },
+            {
+                id: 'interjection',
+                nameEn: 'Interjection',
+                nameTh: 'คำอุทาน',
+                shortTh: 'แสดงอารมณ์ ความรู้สึกตกใจ',
+                emoji: '😲',
+                color: 'pink',
+                bgLight: 'bg-pink-50',
+                borderLight: 'border-pink-200',
+                textMain: 'text-pink-700',
+                badgeBg: 'bg-pink-600',
+                definition: 'คำหรือวลีสั้นๆ ที่เปล่งออกมาเพื่อแสดงอารมณ์ความรู้สึกฉับพลัน เช่น ดีใจ ตกใจ เจ็บปวด หรือทักทาย',
+                trick: 'จำง่ายๆ: "สังเกตเครื่องหมายตกใจ (!) ที่มักจะตามหลังคำเหล่านี้เสมอ"',
+                subtypes: [
+                    'แสดงความตื่นเต้น/ดีใจ: Wow!, Hurray!, Awesome!, Yay!',
+                    'แสดงความเจ็บปวด/ผิดพลาด/เรียกความสนใจ: Ouch!, Oops!, Oh no!, Hey!'
+                ],
+                vocab: [
+                    { word: 'Wow!', pron: 'ว้าว', meaning: 'ว้าว! (ประหลาดใจ/ชื่นชม)', icon: '🤩' },
+                    { word: 'Ouch!', pron: 'เอาช์', meaning: 'โอ๊ย! (เจ็บปวด)', icon: '🤕' },
+                    { word: 'Oops!', pron: 'อุ๊ปส์', meaning: 'อุ๊ย! (ทำพลาดเล็กน้อย)', icon: '🙊' },
+                    { word: 'Hurray!', pron: 'ฮู-เรย์', meaning: 'ไชโย! (ดีใจฉลอง)', icon: '🎉' },
+                    { word: 'Hey!', pron: 'เฮ้', meaning: 'เฮ้! (เรียกทักทาย)', icon: '👋' },
+                    { word: 'Oh no!', pron: 'โอ โน', meaning: 'โอ้ไม่นะ! (ตกใจ/แย่แล้ว)', icon: '😱' }
+                ],
+                sentences: [
+                    { en: '<span class="text-pink-600 underline">Ouch!</span> That coffee is very hot.', clean: 'Ouch! That coffee is very hot.', th: 'โอ๊ย! กาแฟแก้วนั้นร้อนมากเลย' },
+                    { en: '<span class="text-pink-600 underline">Hurray!</span> We won the championship!', clean: 'Hurray! We won the championship!', th: 'ไชโย! พวกเราชนะการแข่งขันแล้ว!' }
+                ]
+            }
+        ];
+
+        // ==========================================
+        // 3. RENDER THEORY SECTION
+        // ==========================================
+        let currentPosId = 'noun';
+
+        function renderPosGrid() {
+            const grid = document.getElementById('posGrid');
+            grid.innerHTML = partsOfSpeechData.map(pos => {
+                const isActive = pos.id === currentPosId;
+                return `
+                    <button onclick="selectPos('${pos.id}')" 
+                        class="card-hover p-3 rounded-2xl border text-left transition flex flex-col items-center text-center gap-1
+                        ${isActive ? `${pos.badgeBg} text-white border-transparent shadow-md scale-105` : `bg-white hover:${pos.bgLight} border-slate-200 text-slate-700`}">
+                        <span class="text-2xl">${pos.emoji}</span>
+                        <span class="en-font font-extrabold text-sm">${pos.nameEn}</span>
+                        <span class="text-[11px] ${isActive ? 'text-white/90' : 'text-slate-500'}">${pos.nameTh}</span>
+                    </button>
+                `;
+            }).join('');
+        }
+
+        function selectPos(id) {
+            currentPosId = id;
+            renderPosGrid();
+            renderLessonDetail();
+        }
+
+        function renderLessonDetail() {
+            const pos = partsOfSpeechData.find(p => p.id === currentPosId);
+            const container = document.getElementById('lessonDetail');
+
+            container.innerHTML = `
+                <!-- Top Colored Header -->
+                <div class="${pos.bgLight} border-b ${pos.borderLight} p-6 md:p-8 flex flex-col md:flex-row md:items-center justify-between gap-4">
+                    <div class="flex items-start sm:items-center gap-4">
+                        <div class="w-16 h-16 rounded-2xl bg-white shadow-sm flex items-center justify-center text-4xl border ${pos.borderLight}">
+                            ${pos.emoji}
+                        </div>
+                        <div>
+                            <div class="flex items-center gap-2.5 flex-wrap">
+                                <h2 class="en-font text-2xl md:text-3xl font-extrabold ${pos.textMain}">${pos.nameEn}</h2>
+                                <span class="px-3 py-0.5 rounded-full text-sm font-bold text-white ${pos.badgeBg}">${pos.nameTh}</span>
+                                <button onclick="speakText('${pos.nameEn}')" class="p-1.5 rounded-lg bg-white hover:bg-slate-100 border ${pos.borderLight} text-xs font-medium shadow-sm transition" title="ฟังการออกเสียง">
+                                    🔊 ออกเสียงชื่อ
+                                </button>
+                            </div>
+                            <p class="text-slate-700 mt-1 text-sm md:text-base font-medium">${pos.definition}</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Content Body -->
+                <div class="p-6 md:p-8 space-y-6">
+                    <!-- Memory Trick & Subtypes -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="bg-amber-50/70 border border-amber-200 rounded-2xl p-4">
+                            <h4 class="font-bold text-amber-800 text-sm flex items-center gap-1.5 mb-1">
+                                💡 เทคนิคการจำ (Memory Trick)
+                            </h4>
+                            <p class="text-sm text-amber-900">${pos.trick}</p>
+                        </div>
+                        <div class="bg-slate-50 border border-slate-200 rounded-2xl p-4">
+                            <h4 class="font-bold text-slate-800 text-sm flex items-center gap-1.5 mb-1">
+                                📂 ประเภทย่อยที่พบบ่อย
+                            </h4>
+                            <ul class="text-xs md:text-sm text-slate-600 space-y-1 list-disc list-inside">
+                                ${pos.subtypes.map(s => `<li>${s}</li>`).join('')}
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Vocabulary Cards with Audio -->
+                    <div>
+                        <h4 class="font-bold text-slate-800 text-base mb-3 flex items-center gap-2">
+                            <span>🗣️ ตัวอย่างคำศัพท์ (คลิกที่การ์ดเพื่อฟังเสียงอ่าน):</span>
+                        </h4>
+                        <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-3">
+                            ${pos.vocab.map(v => `
+                                <div onclick="speakText('${v.word.replace(/'/g, "\\'")}')" 
+                                    class="card-hover cursor-pointer bg-white border border-slate-200 hover:${pos.borderLight} rounded-2xl p-3 text-center shadow-sm group">
+                                    <div class="text-3xl mb-1 group-hover:scale-110 transition">${v.icon}</div>
+                                    <div class="en-font font-bold text-base ${pos.textMain} flex items-center justify-center gap-1">
+                                        <span>${v.word}</span>
+                                        <span class="text-xs opacity-70">🔊</span>
+                                    </div>
+                                    <div class="text-[11px] text-slate-400">(${v.pron})</div>
+                                    <div class="text-xs font-medium text-slate-700 mt-1">${v.meaning}</div>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+
+                    <!-- Example Sentences -->
+                    <div>
+                        <h4 class="font-bold text-slate-800 text-base mb-3 flex items-center gap-2">
+                            <span>📝 ตัวอย่างการใช้ในประโยค:</span>
+                        </h4>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                            ${pos.sentences.map(s => `
+                                <div class="p-4 rounded-2xl bg-slate-50 border border-slate-200 flex items-center justify-between gap-3">
+                                    <div>
+                                        <div class="en-font font-bold text-base md:text-lg text-slate-800">${s.en}</div>
+                                        <div class="text-xs text-slate-500 mt-1">${s.th}</div>
+                                    </div>
+                                    <button onclick="speakText('${s.clean.replace(/'/g, "\\'")}')" 
+                                        class="shrink-0 w-10 h-10 rounded-xl ${pos.badgeBg} hover:opacity-90 text-white flex items-center justify-center shadow-sm transition" title="ฟังประโยค">
+                                        🔊
+                                    </button>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // ==========================================
+        // 4. MINI-GAME: WORD SORTER CHALLENGE
+        // ==========================================
+        const gameWordBank = [
+            { word: 'Elephant', meaning: 'ช้าง', emoji: '🐘', pos: 'noun', hint: 'An <u>elephant</u> has big ears.' },
+            { word: 'Hospital', meaning: 'โรงพยาบาล', emoji: '🏥', pos: 'noun', hint: 'She works at the <u>hospital</u>.' },
+            { word: 'They', meaning: 'พวกเขา', emoji: '👨‍👩‍👧‍👦', pos: 'pronoun', hint: '<u>They</u> are my best friends.' },
+            { word: 'She', meaning: 'เธอ (ผู้หญิง)', emoji: '👧', pos: 'pronoun', hint: '<u>She</u> loves reading books.' },
+            { word: 'Swim', meaning: 'ว่ายน้ำ', emoji: '🏊', pos: 'verb', hint: 'Fish <u>swim</u> in the sea.' },
+            { word: 'Cook', meaning: 'ทำอาหาร', emoji: '🍳', pos: 'verb', hint: 'My mom <u>cooks</u> dinner every day.' },
+            { word: 'Delicious', meaning: 'อร่อย', emoji: '🍕', pos: 'adjective', hint: 'This pizza is very <u>delicious</u>.' },
+            { word: 'Expensive', meaning: 'ราคาแพง', emoji: '💎', pos: 'adjective', hint: 'He bought an <u>expensive</u> watch.' },
+            { word: 'Quickly', meaning: 'อย่างรวดเร็ว', emoji: '⚡', pos: 'adverb', hint: 'The rabbit ran <u>quickly</u>.' },
+            { word: 'Loudly', meaning: 'อย่างเสียงดัง', emoji: '📢', pos: 'adverb', hint: 'The baby cried <u>loudly</u>.' },
+            { word: 'Under', meaning: 'ข้างใต้', emoji: '🪑', pos: 'preposition', hint: 'The shoes are <u>under</u> the bed.' },
+            { word: 'Between', meaning: 'ระหว่าง', emoji: '↔️', pos: 'preposition', hint: 'Sit <u>between</u> Jane and Tom.' },
+            { word: 'Because', meaning: 'เพราะว่า', emoji: '💡', pos: 'conjunction', hint: 'I stayed home <u>because</u> I was sick.' },
+            { word: 'But', meaning: 'แต่', emoji: '⚡', pos: 'conjunction', hint: 'He is small <u>but</u> strong.' },
+            { word: 'Ouch!', meaning: 'โอ๊ย! (เจ็บ)', emoji: '🤕', pos: 'interjection', hint: '<u>Ouch!</u> I stepped on a Lego!' },
+            { word: 'Hurray!', meaning: 'ไชโย!', emoji: '🎉', pos: 'interjection', hint: '<u>Hurray!</u> Tomorrow is a holiday!' },
+            { word: 'Teacher', meaning: 'คุณครู', emoji: '👩‍🏫', pos: 'noun', hint: 'Our <u>teacher</u> is very kind.' },
+            { word: 'Carefully', meaning: 'อย่างระมัดระวัง', emoji: '🔍', pos: 'adverb', hint: 'Please drive <u>carefully</u>.' },
+            { word: 'Beautiful', meaning: 'สวยงาม', emoji: '🌸', pos: 'adjective', hint: 'She wore a <u>beautiful</u> dress.' },
+            { word: 'Us', meaning: 'พวกเรา (กรรม)', emoji: '🤝', pos: 'pronoun', hint: 'The teacher gave <u>us</u> homework.' }
+        ];
+
+        let gameScore = 0;
+        let gameStreak = 0;
+        let gameCorrectCount = 0;
+        let gameTimeLeft = 60;
+        let gameTimerInterval = null;
+        let currentGameItem = null;
+
+        function renderGameButtons() {
+            const grid = document.getElementById('gameButtonsGrid');
+            grid.innerHTML = partsOfSpeechData.map(pos => `
+                <button onclick="checkGameAnswer('${pos.id}')" 
+                    class="p-3.5 rounded-2xl border-2 ${pos.borderLight} ${pos.bgLight} hover:scale-105 active:scale-95 transition flex flex-col items-center shadow-sm">
+                    <span class="text-2xl">${pos.emoji}</span>
+                    <span class="en-font font-extrabold text-sm ${pos.textMain}">${pos.nameEn}</span>
+                    <span class="text-xs text-slate-600">${pos.nameTh}</span>
+                </button>
+            `).join('');
+        }
+
+        function startGame() {
+            gameScore = 0;
+            gameStreak = 0;
+            gameCorrectCount = 0;
+            gameTimeLeft = 60;
+
+            document.getElementById('gameScore').textContent = '0';
+            document.getElementById('gameStreak').textContent = '0';
+            document.getElementById('gameTimer').textContent = '60s';
+            document.getElementById('gameFeedback').textContent = '';
+
+            document.getElementById('gameStartScreen').classList.add('hidden');
+            document.getElementById('gameOverScreen').classList.add('hidden');
+            document.getElementById('gamePlayArea').classList.remove('hidden');
+
+            renderGameButtons();
+            nextGameWord();
+
+            if (gameTimerInterval) clearInterval(gameTimerInterval);
+            gameTimerInterval = setInterval(() => {
+                gameTimeLeft--;
+                document.getElementById('gameTimer').textContent = gameTimeLeft + 's';
+                if (gameTimeLeft <= 0) {
+                    endGame();
+                }
+            }, 1000);
+        }
+
+        function nextGameWord() {
+            const randomIndex = Math.floor(Math.random() * gameWordBank.length);
+            currentGameItem = gameWordBank[randomIndex];
+
+            document.getElementById('gameWordEmoji').textContent = currentGameItem.emoji;
+            document.getElementById('gameWordText').textContent = currentGameItem.word;
+            document.getElementById('gameWordMeaning').textContent = 'แปลว่า: ' + currentGameItem.meaning;
+            document.getElementById('gameWordHint').innerHTML = `"${currentGameItem.hint}"`;
+
+            speakText(currentGameItem.word);
+        }
+
+        function speakCurrentGameWord() {
+            if (currentGameItem) speakText(currentGameItem.word);
+        }
+
+        function checkGameAnswer(selectedPos) {
+            if (!currentGameItem || gameTimeLeft <= 0) return;
+
+            const feedbackEl = document.getElementById('gameFeedback');
+            const correctPosObj = partsOfSpeechData.find(p => p.id === currentGameItem.pos);
+
+            if (selectedPos === currentGameItem.pos) {
+                playTone('correct');
+                gameStreak++;
+                gameCorrectCount++;
+                const pointsEarned = 10 + (gameStreak * 2);
+                gameScore += pointsEarned;
+
+                feedbackEl.innerHTML = `<span class="text-emerald-600">✅ ถูกต้อง! +${pointsEarned} คะแนน (${currentGameItem.word} เป็น ${correctPosObj.nameEn})</span>`;
+            } else {
+                playTone('wrong');
+                gameStreak = 0;
+                feedbackEl.innerHTML = `<span class="text-rose-600">❌ ผิดจ้า! "${currentGameItem.word}" เป็น ${correctPosObj.nameEn} (${correctPosObj.nameTh})</span>`;
+            }
+
+            document.getElementById('gameScore').textContent = gameScore;
+            document.getElementById('gameStreak').textContent = gameStreak;
+
+            setTimeout(() => {
+                if (gameTimeLeft > 0) nextGameWord();
+            }, 650);
+        }
+
+        function endGame() {
+            clearInterval(gameTimerInterval);
+            document.getElementById('gamePlayArea').classList.add('hidden');
+            document.getElementById('gameOverScreen').classList.remove('hidden');
+            document.getElementById('finalGameScore').textContent = gameScore;
+            document.getElementById('finalGameCorrect').textContent = gameCorrectCount + ' ข้อ';
+        }
+
+        // ==========================================
+        // 5. COMPREHENSIVE QUIZ WITH EXPLANATIONS
+        // ==========================================
+        const quizQuestions = [
+            {
+                sentence: 'My sister bought a new <u>computer</u> yesterday.',
+                cleanSentence: 'My sister bought a new computer yesterday.',
+                thai: 'พี่สาวของฉันซื้อคอมพิวเตอร์เครื่องใหม่เมื่อวานนี้',
+                question: 'คำว่า "computer" ที่ขีดเส้นใต้ ทำหน้าที่เป็นคำชนิดใด?',
+                options: ['Noun (คำนาม)', 'Verb (คำกริยา)', 'Adjective (คำคุณศัพท์)', 'Adverb (กริยาวิเศษณ์)'],
+                correctIndex: 0,
+                explanation: 'เพราะ "computer" เป็นชื่อเรียกสิ่งของ และวางอยู่หลังคำคุณศัพท์ (new) จึงทำหน้าที่เป็นคำนาม (Noun)'
+            },
+            {
+                sentence: 'Somchai is very tall, and <u>he</u> plays basketball well.',
+                cleanSentence: 'Somchai is very tall, and he plays basketball well.',
+                thai: 'สมชายตัวสูงมาก และเขาเล่นบาสเกตบอลเก่ง',
+                question: 'คำว่า "he" ที่ขีดเส้นใต้ ทำหน้าที่เป็นคำชนิดใด?',
+                options: ['Preposition (คำบุพบท)', 'Pronoun (คำสรรพนาม)', 'Conjunction (คำสันธาน)', 'Noun (คำนาม)'],
+                correctIndex: 1,
+                explanation: 'เพราะ "he" (เขา) เป็นคำที่ใช้แทนคำนาม "Somchai" ที่กล่าวถึงไปแล้วข้างต้น เพื่อไม่ให้ต้องพูดชื่อซ้ำ จึงเป็นคำสรรพนาม (Pronoun)'
+            },
+            {
+                sentence: 'The children <u>laughed</u> happily at the funny clown.',
+                cleanSentence: 'The children laughed happily at the funny clown.',
+                thai: 'เด็กๆ หัวเราะอย่างมีความสุขกับตัวตลกที่แสนขบขัน',
+                question: 'คำว่า "laughed" ที่ขีดเส้นใต้ ทำหน้าที่เป็นคำชนิดใด?',
+                options: ['Adverb (กริยาวิเศษณ์)', 'Adjective (คำคุณศัพท์)', 'Verb (คำกริยา)', 'Interjection (คำอุทาน)'],
+                correctIndex: 2,
+                explanation: 'เพราะ "laughed" (หัวเราะ) แสดงอาการหรือการกระทำของประธาน (The children) จึงเป็นคำกริยา (Verb)'
+            },
+            {
+                sentence: 'She wore a <u>beautiful</u> Thai dress to the party.',
+                cleanSentence: 'She wore a beautiful Thai dress to the party.',
+                thai: 'เธอสวมชุดไทยที่สวยงามไปงานปาร์ตี้',
+                question: 'คำว่า "beautiful" ที่ขีดเส้นใต้ ทำหน้าที่เป็นคำชนิดใด?',
+                options: ['Adjective (คำคุณศัพท์)', 'Adverb (กริยาวิเศษณ์)', 'Noun (คำนาม)', 'Pronoun (คำสรรพนาม)'],
+                correctIndex: 0,
+                explanation: 'เพราะ "beautiful" (สวยงาม) วางอยู่หน้าคำนาม "Thai dress" เพื่อขยายบอกลักษณะว่าชุดนั้นสวยงามแค่ไหน จึงเป็นคำคุณศัพท์ (Adjective)'
+            },
+            {
+                sentence: 'Please speak <u>quietly</u> in the library.',
+                cleanSentence: 'Please speak quietly in the library.',
+                thai: 'กรุณาพูดอย่างเบาๆ ในห้องสมุด',
+                question: 'คำว่า "quietly" ที่ขีดเส้นใต้ ทำหน้าที่เป็นคำชนิดใด?',
+                options: ['Adjective (คำคุณศัพท์)', 'Verb (คำกริยา)', 'Preposition (คำบุพบท)', 'Adverb (กริยาวิเศษณ์)'],
+                correctIndex: 3,
+                explanation: 'เพราะ "quietly" (อย่างเงียบๆ/เบาๆ) ลงท้ายด้วย -ly และทำหน้าที่ขยายคำกริยา "speak" เพื่อบอกว่าต้องพูดอย่างไร จึงเป็นคำกริยาวิเศษณ์ (Adverb)'
+            },
+            {
+                sentence: 'The little puppy is hiding <u>under</u> the sofa.',
+                cleanSentence: 'The little puppy is hiding under the sofa.',
+                thai: 'ลูกสุนัขตัวน้อยกำลังซ่อนตัวอยู่ใต้โซฟา',
+                question: 'คำว่า "under" ที่ขีดเส้นใต้ ทำหน้าที่เป็นคำชนิดใด?',
+                options: ['Conjunction (คำสันธาน)', 'Preposition (คำบุพบท)', 'Adverb (กริยาวิเศษณ์)', 'Pronoun (คำสรรพนาม)'],
+                correctIndex: 1,
+                explanation: 'เพราะ "under" (ข้างใต้) วางอยู่หน้าคำนาม "the sofa" เพื่อบอกตำแหน่งสถานที่ว่าลูกสุนัขซ่อนอยู่ที่ไหน จึงเป็นคำบุพบท (Preposition)'
+            },
+            {
+                sentence: 'I wanted to buy that shirt, <u>but</u> I didn\'t have enough money.',
+                cleanSentence: 'I wanted to buy that shirt, but I didn\'t have enough money.',
+                thai: 'ฉันอยากซื้อเสื้อตัวนั้น แต่ฉันมีเงินไม่พอ',
+                question: 'คำว่า "but" ที่ขีดเส้นใต้ ทำหน้าที่เป็นคำชนิดใด?',
+                options: ['Interjection (คำอุทาน)', 'Preposition (คำบุพบท)', 'Conjunction (คำสันธาน)', 'Adverb (กริยาวิเศษณ์)'],
+                correctIndex: 2,
+                explanation: 'เพราะ "but" (แต่) ทำหน้าที่เชื่อมประโยค 2 ประโยคที่มีความหมายขัดแย้งกันเข้าด้วยกัน จึงเป็นคำสันธาน (Conjunction)'
+            },
+            {
+                sentence: '<u>Wow!</u> You did an amazing job on this project!',
+                cleanSentence: 'Wow! You did an amazing job on this project!',
+                thai: 'ว้าว! คุณทำงานโปรเจกต์นี้ออกมาได้ยอดเยี่ยมมาก!',
+                question: 'คำว่า "Wow!" ที่ขีดเส้นใต้ ทำหน้าที่เป็นคำชนิดใด?',
+                options: ['Interjection (คำอุทาน)', 'Adjective (คำคุณศัพท์)', 'Pronoun (คำสรรพนาม)', 'Conjunction (คำสันธาน)'],
+                correctIndex: 0,
+                explanation: 'เพราะ "Wow!" เป็นคำที่เปล่งออกมาเพื่อแสดงอารมณ์ประหลาดใจและชื่นชม พร้อมมีเครื่องหมายอัศเจรีย์ (!) กำกับ จึงเป็นคำอุทาน (Interjection)'
+            },
+            {
+                sentence: 'We always go to school <u>by</u> bus.',
+                cleanSentence: 'We always go to school by bus.',
+                thai: 'พวกเราไปโรงเรียนโดยรถบัสเสมอ',
+                question: 'ข้อใดคือคำกริยาวิเศษณ์บอกความถี่ (Adverb of Frequency) ในประโยคนี้?',
+                options: ['We', 'always', 'school', 'by'],
+                correctIndex: 1,
+                explanation: '"always" (สม่ำเสมอ/ตลอด) เป็น Adverb ที่ขยายกริยา "go" เพื่อบอกว่าไปบ่อยแค่ไหน ส่วน We=Pronoun, school=Noun, by=Preposition'
+            },
+            {
+                sentence: 'She passed the English test <u>because</u> she practiced every day.',
+                cleanSentence: 'She passed the English test because she practiced every day.',
+                thai: 'เธอสอบผ่านวิชาภาษาอังกฤษ เพราะว่าเธอฝึกฝนทุกวัน',
+                question: 'คำว่า "because" ทำหน้าที่เป็นอะไรในประโยคนี้?',
+                options: ['Preposition (คำบุพบท)', 'Conjunction (คำสันธาน)', 'Adjective (คำคุณศัพท์)', 'Verb (คำกริยา)'],
+                correctIndex: 1,
+                explanation: '"because" (เพราะว่า) เป็นคำสันธาน (Conjunction) ที่ใช้เชื่อมประโยคผลลัพธ์ (สอบผ่าน) เข้ากับประโยคเหตุผล (ฝึกฝนทุกวัน)'
+            },
+            {
+                sentence: 'This soup tastes really <u>good</u>.',
+                cleanSentence: 'This soup tastes really good.',
+                thai: 'ซุปถ้วยนี้รสชาติดีจริงๆ',
+                question: 'คำว่า "good" ที่ขีดเส้นใต้ ทำหน้าที่เป็นคำชนิดใด?',
+                options: ['Adverb (กริยาวิเศษณ์)', 'Noun (คำนาม)', 'Adjective (คำคุณศัพท์)', 'Verb (คำกริยา)'],
+                correctIndex: 2,
+                explanation: 'ข้อนี้หลายคนชอบหลง! คำว่า "tastes" เป็น Linking Verb (กริยาเชื่อม) คำที่ตามหลังเพื่อขยายประธาน "soup" จึงต้องเป็นคำคุณศัพท์ (Adjective) คือ "good"'
+            },
+            {
+                sentence: 'Can you give <u>them</u> these English books?',
+                cleanSentence: 'Can you give them these English books?',
+                thai: 'คุณช่วยเอาหนังสือภาษาอังกฤษเหล่านี้ให้พวกเขาหน่อยได้ไหม?',
+                question: 'คำว่า "them" ที่ขีดเส้นใต้ ทำหน้าที่เป็นคำชนิดใด?',
+                options: ['Noun (คำนาม)', 'Pronoun (คำสรรพนาม)', 'Adjective (คำคุณศัพท์)', 'Preposition (คำบุพบท)'],
+                correctIndex: 1,
+                explanation: '"them" (พวกเขา) เป็น Object Pronoun (คำสรรพนามที่ทำหน้าที่เป็นกรรมของกริยา give)'
+            }
+        ];
+
+        let currentQuizIndex = 0;
+        let quizScore = 0;
+        let quizAnswered = false;
+        let userAnswers = [];
+
+        function renderQuizQuestion() {
+            const q = quizQuestions[currentQuizIndex];
+            quizAnswered = false;
+
+            document.getElementById('quizProgressText').textContent = `ข้อที่ ${currentQuizIndex + 1} / ${quizQuestions.length}`;
+            document.getElementById('quizProgressBar').style.width = `${((currentQuizIndex + 1) / quizQuestions.length) * 100}%`;
+
+            document.getElementById('quizQuestionPrompt').textContent = q.question;
+            document.getElementById('quizSentenceBox').innerHTML = q.sentence;
+            document.getElementById('quizThaiTranslation').textContent = `คำแปล: "${q.thai}"`;
+
+            document.getElementById('quizExplanationBox').classList.add('hidden');
+
+            const optionsGrid = document.getElementById('quizOptionsGrid');
+            optionsGrid.innerHTML = q.options.map((opt, idx) => `
+                <button onclick="selectQuizOption(${idx})" id="quizOpt-${idx}"
+                    class="p-4 rounded-2xl border-2 border-slate-200 bg-white hover:border-indigo-400 hover:bg-indigo-50/40 text-left font-bold text-slate-700 transition flex items-center gap-3 shadow-sm">
+                    <span class="w-8 h-8 rounded-lg bg-slate-100 text-slate-600 flex items-center justify-center text-sm font-extrabold shrink-0">
+                        ${['A', 'B', 'C', 'D'][idx]}
+                    </span>
+                    <span class="text-sm md:text-base">${opt}</span>
+                </button>
+            `).join('');
+        }
+
+        function speakCurrentQuizSentence() {
+            const q = quizQuestions[currentQuizIndex];
+            if (q) speakText(q.cleanSentence);
+        }
+
+        function selectQuizOption(selectedIndex) {
+            if (quizAnswered) return;
+            quizAnswered = true;
+
+            const q = quizQuestions[currentQuizIndex];
+            const isCorrect = selectedIndex === q.correctIndex;
+            if (isCorrect) {
+                quizScore++;
+                playTone('correct');
+            } else {
+                playTone('wrong');
+            }
+
+            userAnswers.push({
+                questionIndex: currentQuizIndex,
+                selected: selectedIndex,
+                isCorrect: isCorrect
+            });
+
+            // Style buttons
+            q.options.forEach((_, idx) => {
+                const btn = document.getElementById(`quizOpt-${idx}`);
+                btn.disabled = true;
+                if (idx === q.correctIndex) {
+                    btn.className = 'p-4 rounded-2xl border-2 border-emerald-500 bg-emerald-50 text-left font-bold text-emerald-900 flex items-center gap-3 shadow-sm';
+                } else if (idx === selectedIndex && !isCorrect) {
+                    btn.className = 'p-4 rounded-2xl border-2 border-rose-500 bg-rose-50 text-left font-bold text-rose-900 flex items-center gap-3 shadow-sm';
+                } else {
+                    btn.className = 'p-4 rounded-2xl border border-slate-200 bg-slate-50 text-left font-medium text-slate-400 flex items-center gap-3 opacity-60';
+                }
+            });
+
+            // Show Explanation
+            const expBox = document.getElementById('quizExplanationBox');
+            const resHeader = document.getElementById('quizResultHeader');
+            const expText = document.getElementById('quizExplanationText');
+            const nextBtn = document.getElementById('nextQuizBtn');
+
+            expBox.classList.remove('hidden');
+            if (isCorrect) {
+                expBox.className = 'p-5 rounded-2xl border border-emerald-300 bg-emerald-50/70 space-y-2 animate-pop';
+                resHeader.innerHTML = `<span class="text-emerald-700">✅ ยอดเยี่ยม! ตอบถูกต้องครับ</span>`;
+            } else {
+                expBox.className = 'p-5 rounded-2xl border border-rose-300 bg-rose-50/70 space-y-2 animate-pop';
+                resHeader.innerHTML = `<span class="text-rose-700">❌ ยังไม่ถูกนะ! คำตอบที่ถูกคือ: ${q.options[q.correctIndex]}</span>`;
+            }
+
+            expText.innerHTML = `<strong>💡 คำอธิบายเฉลย:</strong> ${q.explanation}`;
+            nextBtn.textContent = (currentQuizIndex === quizQuestions.length - 1) ? 'ดูสรุปคะแนนรวม 🏆' : 'ข้อต่อไป ➡️';
+        }
+
+        function nextQuizQuestion() {
+            if (currentQuizIndex < quizQuestions.length - 1) {
+                currentQuizIndex++;
+                renderQuizQuestion();
+            } else {
+                showQuizSummary();
+            }
+        }
+
+        function showQuizSummary() {
+            document.getElementById('quizActiveContainer').classList.add('hidden');
+            document.getElementById('quizSummaryContainer').classList.remove('hidden');
+
+            document.getElementById('quizFinalScore').textContent = `${quizScore} / ${quizQuestions.length}`;
+
+            const emojiEl = document.getElementById('quizSummaryEmoji');
+            const feedbackEl = document.getElementById('quizSummaryFeedback');
+
+            if (quizScore >= 10) {
+                emojiEl.textContent = '🏆';
+                feedbackEl.textContent = 'เก่งมากๆ เลยครับ! คุณเข้าใจเรื่อง 8 Parts of Speech อย่างทะลุปรุโปร่งแล้ว!';
+            } else if (quizScore >= 7) {
+                emojiEl.textContent = '🌟';
+                feedbackEl.textContent = 'ทำได้ดีมากครับ! ลองทบทวนข้อที่ผิดด้านล่างอีกนิด รับรองเต็มแน่นอน';
+            } else {
+                emojiEl.textContent = '💪';
+                feedbackEl.textContent = 'ไม่ต้องท้อนะ! ลองกลับไปอ่านทฤษฎีพร้อมกดฟังเสียง แล้วมาลองทำใหม่อีกครั้งนะครับ';
+            }
+
+            // Render Full Review List
+            const reviewList = document.getElementById('quizReviewList');
+            reviewList.innerHTML = quizQuestions.map((q, idx) => {
+                const ua = userAnswers[idx];
+                const isCorr = ua && ua.isCorrect;
+                return `
+                    <div class="p-4 rounded-2xl border ${isCorr ? 'border-emerald-200 bg-emerald-50/30' : 'border-rose-200 bg-rose-50/30'} space-y-1.5">
+                        <div class="flex items-center justify-between gap-2">
+                            <span class="text-xs font-bold px-2.5 py-0.5 rounded-full ${isCorr ? 'bg-emerald-100 text-emerald-800' : 'bg-rose-100 text-rose-800'}">
+                                ข้อที่ ${idx + 1}: ${isCorr ? '✅ ตอบถูก' : '❌ ตอบผิด'}
+                            </span>
+                            <button onclick="speakText('${q.cleanSentence.replace(/'/g, "\\'")}')" class="text-xs text-indigo-600 hover:underline font-medium">
+                                🔊 ฟังประโยค
+                            </button>
+                        </div>
+                        <div class="en-font font-bold text-base text-slate-800">${q.sentence}</div>
+                        <div class="text-xs text-slate-600">
+                            <strong>คำตอบของคุณ:</strong> ${ua ? q.options[ua.selected] : '-'} | 
+                            <strong class="text-emerald-700">เฉลยที่ถูกต้อง:</strong> ${q.options[q.correctIndex]}
+                        </div>
+                        <div class="text-xs text-slate-700 bg-white p-2.5 rounded-xl border border-slate-200/80">
+                            💡 <strong>เหตุผล:</strong> ${q.explanation}
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function resetQuiz() {
+            currentQuizIndex = 0;
+            quizScore = 0;
+            userAnswers = [];
+            document.getElementById('quizSummaryContainer').classList.add('hidden');
+            document.getElementById('quizActiveContainer').classList.remove('hidden');
+            renderQuizQuestion();
+        }
+
+        // ==========================================
+        // 6. TAB NAVIGATION & INITIALIZATION
+        // ==========================================
+        function switchTab(tabName) {
+            if (tabName !== 'game' && gameTimerInterval) {
+                clearInterval(gameTimerInterval);
+            }
+
+            const tabs = ['learn', 'game', 'quiz'];
+            tabs.forEach(t => {
+                const section = document.getElementById(`section-${t}`);
+                const btn = document.getElementById(`tab-${t}`);
+                if (t === tabName) {
+                    section.classList.remove('hidden');
+                    btn.className = 'px-3.5 py-1.5 rounded-lg text-sm font-medium transition bg-indigo-600 text-white shadow-sm';
+                } else {
+                    section.classList.add('hidden');
+                    btn.className = 'px-3.5 py-1.5 rounded-lg text-sm font-medium transition text-slate-600 hover:text-indigo-600';
+                }
+            });
+        }
+
+        // Initialize on load
+        window.addEventListener('DOMContentLoaded', () => {
+            if ('speechSynthesis' in window) {
+                window.speechSynthesis.getVoices();
+            }
+            renderPosGrid();
+            renderLessonDetail();
+            renderQuizQuestion();
+        });
+    </script>
+</body>
+</html>
